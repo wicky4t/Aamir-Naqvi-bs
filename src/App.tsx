@@ -48,7 +48,32 @@ const desktopImages = [
   { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
 ]; 
 
- 
+ {/* Desktop Images - Stacked full screen */}
+<div className="hidden md:block">
+  {desktopImages.map((img, index) => (
+    <div
+      key={index}
+      className="desktop-image fixed inset-0 w-full h-full z-[${img.zIndex}] hero-image-layer"
+      style={{
+        animation: `slideUp 1s ease-out ${img.delay}s forwards`,
+        transform: 'translateY(100vh)',
+      }}
+    >
+      <img
+         { src: '/pc/me.png', delay: 1.5, zIndex: 80, isStatic: false },
+  { src: '/pc/me 2.png', delay: 1.4, zIndex: 80, isStatic: false },
+  { src: '/pc/5-6.png', delay: 0.6, zIndex: 30, isStatic: false },
+  { src: '/pc/3-4.png', delay: 0.8, zIndex: 40, isStatic: false },
+  { src: '/pc/1-2.png', delay: 1.0, zIndex: 50, isStatic: false },
+  { src: '/pc/7.png', delay: 1.2, zIndex: 60, isStatic: false },
+  { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
+        alt={`Desktop layer ${index + 1}`}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  ))}
+</div>
+
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(true);
