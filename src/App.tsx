@@ -94,24 +94,9 @@ function App() {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-    if (portfolioSectionRef.current) {
-      const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
-
-      // Flatten and filter mobile images
-      const mobileAnimatableElements = (mobileImagesRef.current || []).filter((el, i) => {
-        const src = mobileImages[i]?.src || '';
-        return el && !excludedBackgrounds.some(bg => src.includes(bg));
-      });
-
-      // Flatten and filter desktop images
-      const desktopAnimatableElements = (desktopImagesRef.current || []).filter((el, i) => {
-        const src = desktopImages[i]?.src || '';
-        return el && !excludedBackgrounds.some(bg => src.includes(bg));
-      });
-
-      const animatableElements = [...mobileAnimatableElements, ...desktopAnimatableElements];
-
-      // Timeline for scroll-down movement
+    // Desktop-only hero animations
+    if (!isMobile()) {
+      // Create a single timeline for all hero elements
       const heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: portfolioSectionRef.current,
@@ -119,12 +104,20 @@ function App() {
           end: "top 70%",
           scrub: 4,
           invalidateOnRefresh: false,
+          ease: "power2.out",
         }
       });
 
-      animatableElements.forEach(element => {
-        heroTl.to(element, { y: 50, ease: "power2.out" }, 0);
-      });
+      // Batch hero elements animation
+      const heroElements = [desktopImages.current];
+      heroElements.forEach(element => {
+        if (element) {
+          heroTl.to(element, { 
+            y: 50,
+            ease: "power2.out"
+          }, 0);
+        }
+      }); 
 
       // Section parallax
       gsap.to(portfolioSectionRef.current, {
