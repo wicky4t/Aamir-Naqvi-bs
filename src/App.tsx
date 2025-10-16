@@ -105,7 +105,7 @@ useEffect(() => {
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
         start: "buttom bottom",
-        end: "top top",
+        end: "center top",
         scrub: true, // scroll-driven smooth animation
       }
     });
