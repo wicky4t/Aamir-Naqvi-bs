@@ -107,7 +107,7 @@ useEffect(() => {
       })
       .map(({ element }) => element);
 
-    const desktopAnimatableElements = (desktopImagesRef.current || [])
+    const desktopAnimatableElements = (desktopImagesRef.current || []) 
       .map((el, index) => ({ element: el, config: desktopImages[index] }))
       .filter(({ element, config }) => {
         if (!element) return false;
