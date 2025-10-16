@@ -90,62 +90,68 @@ function App() {
   }, []);
   
 
-useEffect(() => {
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  gsap.registerPlugin(ScrollTrigger);
-
-  if (!isMobile() && portfolioSectionRef.current) {
-    // Create a single timeline for all hero elements
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: portfolioSectionRef.current,
-        start: "top bottom",
-        end: "top 70%",
-        scrub: 4,
-        invalidateOnRefresh: false,
-      }
-    });
-
-    // Batch hero elements animation (flatten arrays)
-    const heroElements = [
-      ...(mobileImagesRef.current || []),
-      ...(desktopImagesRef.current || [])
-    ];
-
-    heroElements.forEach(element => {
-      if (element) {
-        heroTl.to(element, { 
-          y: 50,
-          ease: "power2.out"
-        }, 0);
-      }
-    });
-
-    // Section parallax
-    gsap.to(portfolioSectionRef.current, {
-      y: -900,
-      scrollTrigger: {
-        trigger: portfolioSectionRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 2,
-      }
-    });
-
-    ScrollTrigger.create({
-      trigger: portfolioSectionRef.current,
-      start: "center bottom",
-      fastScrollEnd: true,
-      onEnter: () => setShowContact(true),
-      onLeaveBack: () => setShowContact(false),
-    });
-  }
-
-  return () => {
+ // Desktop scroll animation
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  };
-}, []);
 
+    if (portfolioSectionRef.current) {
+      const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
+
+      // Flatten and filter mobile images
+      const mobileAnimatableElements = (mobileImagesRef.current || []).filter((el, i) => {
+        const src = mobileImages[i]?.src || '';
+        return el && !excludedBackgrounds.some(bg => src.includes(bg));
+      });
+
+      // Flatten and filter desktop images
+      const desktopAnimatableElements = (desktopImagesRef.current || []).filter((el, i) => {
+        const src = desktopImages[i]?.src || '';
+        return el && !excludedBackgrounds.some(bg => src.includes(bg));
+      });
+
+      const animatableElements = [...mobileAnimatableElements, ...desktopAnimatableElements];
+
+      // Timeline for scroll-down movement
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "top 70%",
+          scrub: 4,
+          invalidateOnRefresh: false,
+        }
+      });
+
+      animatableElements.forEach(element => {
+        heroTl.to(element, { y: 50, ease: "power2.out" }, 0);
+      });
+
+      // Section parallax
+      gsap.to(portfolioSectionRef.current, {
+        y: -900,
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
+
+      // Show/hide contact section
+      ScrollTrigger.create({
+        trigger: portfolioSectionRef.current,
+        start: "center bottom",
+        fastScrollEnd: true,
+        onEnter: () => setShowContact(true),
+        onLeaveBack: () => setShowContact(false),
+      });
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
  
   return ( 
     <div className="relative">
