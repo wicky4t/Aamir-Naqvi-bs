@@ -94,20 +94,7 @@ function App() {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-    // Desktop-only hero animations
-    if (!isMobile()) {
-      // Create a single timeline for all hero elements
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: portfolioSectionRef.current,
-          start: "top bottom",
-          end: "top 70%",
-          scrub: 4,
-          invalidateOnRefresh: false,
-          ease: "power2.out",
-        }
-      });
-
+ 
       // Batch hero elements animation
       const heroElements = [desktopImages.current];
       heroElements.forEach(element => {
