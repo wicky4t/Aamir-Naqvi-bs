@@ -39,12 +39,12 @@ const mobileImages = [
 ];
 
 const desktopImages = [
-  { src: '/pc/me.png', delay: 1.5, zIndex: 80 },
-  { src: '/pc/me 2.png', delay: 1.4, zIndex: 80 },
-  { src: '/pc/5-6.png', delay: 0.6, zIndex: 30 },
-  { src: '/pc/3-4.png', delay: 0.8, zIndex: 40 },
-  { src: '/pc/1-2.png', delay: 1.0, zIndex: 50 },
-  { src: '/pc/7.png', delay: 1.2, zIndex: 60 },
+  { src: '/pc/me.png', delay: 1.5, zIndex: 80, isStatic: false },
+  { src: '/pc/me 2.png', delay: 1.4, zIndex: 80, isStatic: false },
+  { src: '/pc/5-6.png', delay: 0.6, zIndex: 30, isStatic: false },
+  { src: '/pc/3-4.png', delay: 0.8, zIndex: 40, isStatic: false },
+  { src: '/pc/1-2.png', delay: 1.0, zIndex: 50, isStatic: false },
+  { src: '/pc/7.png', delay: 1.2, zIndex: 60, isStatic: false },
   { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
   { src: '/pc/bg.png', delay: 0, zIndex: 0, isStatic: true },
 ]; 
