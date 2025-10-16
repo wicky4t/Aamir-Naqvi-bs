@@ -196,6 +196,11 @@ useEffect(() => {
               ref={(el) => (mobileImagesRef.current[index] = el)}
               className="hero-image-layer fixed inset-0 w-full h-full"
               style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
                 zIndex: img.isStatic ? 0 : index + 10,
                 animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
@@ -218,6 +223,11 @@ useEffect(() => {
               ref={(el) => (desktopImagesRef.current[index] = el)}
               className="hero-image-layer fixed inset-0 w-full h-full"
               style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
                 zIndex: img.isStatic ? 0 : index + 10,
                 animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
