@@ -29,24 +29,24 @@ const getMobileVH = () => {
   return null;
 };
 const mobileImages = [
-  { src: '/mobile/mbname.png', delay: 0.2 },
-  { src: '/mobile/7.png', delay: 0.4 },
-  { src: '/mobile/mb5-6.png', delay: 0.6 },
-  { src: '/mobile/mb3-4.png', delay: 0.8 },
-  { src: '/mobile/mb1-2.png', delay: 1.0 },
-  { src: '/mobile/mbme.png', delay: 1.2 },
-  { src: '/mobile/mobile bg.png', delay: 1.4 },
+  { src: '/mobile/mbname.png', delay: 0.2, zIndex: 10 },
+  { src: '/mobile/7.png', delay: 0.4, zIndex: 20 },
+  { src: '/mobile/mb5-6.png', delay: 0.6, zIndex: 30 },
+  { src: '/mobile/mb3-4.png', delay: 0.8, zIndex: 40 },
+  { src: '/mobile/mb1-2.png', delay: 1.0, zIndex: 50 },
+  { src: '/mobile/mbme.png', delay: 1.2, zIndex: 60 },
+  { src: '/mobile/mobile bg.png', delay: 1.4, zIndex: 70 },
 ];
 
 const desktopImages = [
-  { src: '/pc/me.png', delay: 1.2 },
-  { src: '/pc/me 2.png', delay: 1.4 },
-  { src: '/pc/5-6.png', delay: 0.6 },
-  { src: '/pc/3-4.png', delay: 0.8 },
-  { src: '/pc/1-2.png', delay: 1.0 },
-  { src: '/pc/7.png', delay: 1.2 },
-  { src: '/pc/name.png', delay: 0 },
-  { src: '/pc/bg.png', delay: 0 },
+  { src: '/pc/me.png', delay: 1.2, zIndex: 10 },
+  { src: '/pc/me 2.png', delay: 1.4, zIndex: 20 },
+  { src: '/pc/5-6.png', delay: 0.6, zIndex: 30 },
+  { src: '/pc/3-4.png', delay: 0.8, zIndex: 40 },
+  { src: '/pc/1-2.png', delay: 1.0, zIndex: 50 },
+  { src: '/pc/7.png', delay: 1.2, zIndex: 60 },
+  { src: '/pc/name.png', delay: 0, zIndex: 70 },
+  { src: '/pc/bg.png', delay: 0, zIndex: 80 },
 ]; 
 
  
@@ -201,7 +201,7 @@ useEffect(() => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: index + 10,
+                zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
               }}
@@ -228,7 +228,7 @@ useEffect(() => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: index + 10,
+                zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
               }}
