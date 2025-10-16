@@ -107,6 +107,7 @@ useEffect(() => {
        start: "top bottom",
           end: "top 70%",
         scrub: true, // scroll-driven smooth animation
+         markers: true,
       }
     });
 
