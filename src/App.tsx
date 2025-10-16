@@ -95,13 +95,33 @@ useEffect(() => {
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
   if (!isMobile() && portfolioSectionRef.current) {
-    // Flatten hero elements
-    const heroElements = [
-      ...(mobileImagesRef.current || []),
-      ...(desktopImagesRef.current || [])
-    ].filter(Boolean); // remove nulls
+    // Filter out background images before applying parallax
+    const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
 
-    // Create a timeline for hero elements
+    const mobileAnimatableElements = (mobileImagesRef.current || [])
+      .map((el, index) => ({ element: el, config: mobileImages[index] }))
+      .filter(({ element, config }) => {
+        if (!element) return false;
+        const imgSrc = config.src;
+        return !excludedBackgrounds.some(bg => imgSrc.includes(bg));
+      })
+      .map(({ element }) => element);
+
+    const desktopAnimatableElements = (desktopImagesRef.current || [])
+      .map((el, index) => ({ element: el, config: desktopImages[index] }))
+      .filter(({ element, config }) => {
+        if (!element) return false;
+        const imgSrc = config.src;
+        return !excludedBackgrounds.some(bg => imgSrc.includes(bg));
+      })
+      .map(({ element }) => element);
+
+    const heroElements = [
+      ...mobileAnimatableElements,
+      ...desktopAnimatableElements
+    ];
+
+    // Create a timeline for hero elements (excluding backgrounds)
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
