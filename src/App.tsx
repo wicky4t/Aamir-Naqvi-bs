@@ -91,10 +91,9 @@ function App() {
   
 
 useEffect(() => {
-  gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-
-
+ gsap.registerPlugin(ScrollTrigger);
+ 
     // Create a timeline for hero elements (excluding backgrounds)
     const heroTl = gsap.timeline({
       scrollTrigger: {
