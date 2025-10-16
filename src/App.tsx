@@ -99,9 +99,9 @@ useEffect(() => {
 
   if (portfolioSectionRef.current) {
     // Only desktop images, no exclusions
-    const animatableDesktopElements = desktopImages.current.filter(el => el);
+    const animatableDesktopElements = desktopImagesRef.current.filter(el => el);
 
-    // Timeline for downward movement
+    // Timeline for downward movement 
     const desktopTl = gsap.timeline({
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
