@@ -47,7 +47,7 @@ const desktopImages = [
   { src: '/pc/7.png', delay: 1.2 },
   { src: '/pc/name.png', delay: 0, }, 
   { src: '/pc/bg.png', isStatic: true},  
-];
+]; 
 
  
 
@@ -94,35 +94,42 @@ useEffect(() => {
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-  if (!isMobile() && portfolioSectionRef.current) {
-    // Filter out background images before applying parallax
+  if (portfolioSectionRef.current) {
+    // List of background images to exclude
     const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
 
-    const mobileAnimatableElements = (mobileImagesRef.current || [])
-      .map((el, index) => ({ element: el, config: mobileImages[index] }))
-      .filter(({ element, config }) => {
-        if (!element) return false;
-        const imgSrc = config.src;
-        return !excludedBackgrounds.some(bg => imgSrc.includes(bg));
+    // Combine mobile and desktop images, filter out backgrounds
+    const heroElements = [
+      ...(mobileImagesRef.current || []).filter((el, i) => {
+        const src = mobileImages[i]?.src || '';
+        return el && !excludedBackgrounds.some(bg => src.includes(bg));
+      }),
+      ...(desktopImagesRef.current || []).filter((el, i) => {
+        const src = desktopImages[i]?.src || '';
+        return el && !excludedBackgrounds.some(bg => src.includes(bg));
       })
-      .map(({ element }) => element);
-
-    const desktopAnimatableElements = (desktopImagesRef.current || []) 
-      .map((el, index) => ({ element: el, config: desktopImages[index] }))
-      .filter(({ element, config }) => {
-        if (!element) return false;
-        const imgSrc = config.src;
-        return !excludedBackgrounds.some(bg => imgSrc.includes(bg));
-      })
-      .map(({ element }) => element);
-
-    const heroElements = [ 
-      ...mobileAnimatableElements,
-      ...desktopAnimatableElements
     ];
 
+    // Create timeline for scroll-down animation
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: portfolioSectionRef.current,
+        start: "top bottom",
+        end: "top 70%",
+        scrub: 4,
+        invalidateOnRefresh: false,
+      }
+    });
 
-    // Section parallax
+    // Animate each element downward
+    heroElements.forEach(element => {
+      heroTl.to(element, {
+        y: 50, // downward movement
+        ease: "power2.out"
+      }, 0);
+    });
+
+    // Section parallax animation
     gsap.to(portfolioSectionRef.current, {
       y: -900,
       scrollTrigger: {
@@ -133,20 +140,7 @@ useEffect(() => {
       }
     });
 
-   // Portfolio section animation
-    if (portfolioSectionRef.current) {
-      gsap.to(portfolioSectionRef.current, {
-        y: -900,
-        scrollTrigger: {
-          trigger: portfolioSectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        }
-      });
-    }
-    
-    // Show/hide contact section
+    // Show/hide contact section based on scroll
     ScrollTrigger.create({
       trigger: portfolioSectionRef.current,
       start: "center bottom",
@@ -156,6 +150,7 @@ useEffect(() => {
     });
   }
 
+  // Clean up all scroll triggers on unmount
   return () => {
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
   };
