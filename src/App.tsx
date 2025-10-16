@@ -91,26 +91,36 @@ function App() {
   
 
 useEffect(() => {
+  gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
- gsap.registerPlugin(ScrollTrigger);
- 
-    // Create a timeline for hero elements (excluding backgrounds)
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: portfolioSectionRef.current,
-        start: "top bottom",
-        end: "top 70%",
-        scrub: 4,
-        invalidateOnRefresh: false,
-      }
-    });
 
-    heroElements.forEach(element => {
-      heroTl.to(element, {
-        y: 50,
-        ease: "power2.out"
-      }, 0);
-    });
+  if (!isMobile() && portfolioSectionRef.current) {
+    // Filter out background images before applying parallax
+    const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
+
+    const mobileAnimatableElements = (mobileImagesRef.current || [])
+      .map((el, index) => ({ element: el, config: mobileImages[index] }))
+      .filter(({ element, config }) => {
+        if (!element) return false;
+        const imgSrc = config.src;
+        return !excludedBackgrounds.some(bg => imgSrc.includes(bg));
+      })
+      .map(({ element }) => element);
+
+    const desktopAnimatableElements = (desktopImagesRef.current || []) 
+      .map((el, index) => ({ element: el, config: desktopImages[index] }))
+      .filter(({ element, config }) => {
+        if (!element) return false;
+        const imgSrc = config.src;
+        return !excludedBackgrounds.some(bg => imgSrc.includes(bg));
+      })
+      .map(({ element }) => element);
+
+    const heroElements = [ 
+      ...mobileAnimatableElements,
+      ...desktopAnimatableElements
+    ];
+
 
     // Section parallax
     gsap.to(portfolioSectionRef.current, {
