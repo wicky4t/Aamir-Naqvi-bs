@@ -334,54 +334,54 @@ useEffect(() => {
           }}
         > 
          {/* Main Heading */}
-          <h2 className="text-5xl md:text-7xl font-bosenAlt text-white/80 text-center mb-0 tracking-wide">
+          <h2 className="text-5xl md:text-7xl font-bosenAlt text-[#181f22] text-center mb-0 tracking-wide">
             LET'S START A CONVERSATION
           </h2>
 
          {/* Subheading */}
-<p className="text-white/30 text-1xl md:text-4xl lg:text-4xl ibm-font mb-8 text-center">
+<p className="text-[#181f22] text-1xl md:text-4xl lg:text-4xl ibm-font mb-8 text-center">
   Drop me a message, let's make something users will love.
 </p>
 
 <div className="space-y-10 text-center">
             {/* Email */}
             <div className="flex flex-col items-center gap-2">
-              <Mail className="text-white/70 w-8 h-8" />
+              <Mail className="text-[#181f22] w-8 h-8" />
               <a
                 href="https://mail.google.com/mail/?view=cm&to=broskiagency@gmail.com" target="_blank"
-                className="text-white/80 font-bosenAlt text-xl md:text-xl lg:text-2xl tracking-wide hover:text-blue-500 transition-colors duration-200"
+                className="text-[#181f22] font-bosenAlt text-xl md:text-xl lg:text-2xl tracking-wide hover:text-blue-500 transition-colors duration-200"
               >
                 BROSKIAGENCY@GMAIL.COM
               </a>
-              <p className="text-white/30 text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
+              <p className="text-[#181f22] text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
   Let's create something that actually works.
 </p>
             </div>
 
             {/* LinkedIn */}
             <div className="flex flex-col items-center gap-0">
-              <Linkedin className="text-white/70 w-8 h-8" />
+              <Linkedin className="text-[#181f22] w-8 h-8" />
               <a
                 href="https://www.linkedin.com/in/aamir-naqvi/"
                 target="_blank"
                 rel="noopener noreferrer"
-  className="text-white/80 font-bosenAlt text-xl md:text-xl lg:text-2xl tracking-wide hover:text-blue-500 transition-colors duration-200"
+  className="text-[#181f22] font-bosenAlt text-xl md:text-xl lg:text-2xl tracking-wide hover:text-blue-500 transition-colors duration-200"
               >
                 LINKEDIN
               </a>
-              <p className="text-white/30 text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
+              <p className="text-[#181f22] text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
                 See how UX meets business - connect with me.
               </p>
             </div>
 
             {/* Instagram */}
             <div className="flex flex-col items-center gap-2">
-              <Instagram className="text-white/70 w-8 h-8" />
+              <Instagram className="text-[#181f22] w-8 h-8" />
               <a
                 href="https://www.instagram.com/aamir.naqvii/"
                 target="_blank"
                 rel="noopener noreferrer"
-                  className="text-white/80 font-bosenAlt text-xl md:text-xl lg:text-2xl tracking-wide hover:text-blue-500 transition-colors duration-200"
+                  className="text-[#181f22] font-bosenAlt text-xl md:text-xl lg:text-2xl tracking-wide hover:text-blue-500 transition-colors duration-200"
               >
                 INSTAGRAM
               </a>
