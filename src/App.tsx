@@ -48,7 +48,7 @@ const desktopImages = [
   { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
 ]; 
 
- 
+  
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(true);
