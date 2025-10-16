@@ -38,7 +38,7 @@ const mobileImages = [
   { src: '/mobile/mobile bg.png', delay: 0, zIndex: 0 },
 ];
 
-const desktopImagesRef = [
+const desktopImages = [
   { src: '/pc/me.png', delay: 1.5, zIndex: 80, isStatic: false },
   { src: '/pc/me 2.png', delay: 1.4, zIndex: 80, isStatic: false },
   { src: '/pc/5-6.png', delay: 0.6, zIndex: 30, isStatic: false },
