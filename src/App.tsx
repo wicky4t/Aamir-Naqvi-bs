@@ -94,7 +94,25 @@ useEffect(() => {
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
- 
+
+    // Create a timeline for hero elements (excluding backgrounds)
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: portfolioSectionRef.current,
+        start: "top bottom",
+        end: "top 70%",
+        scrub: 4,
+        invalidateOnRefresh: false,
+      }
+    });
+
+    heroElements.forEach(element => {
+      heroTl.to(element, {
+        y: 50,
+        ease: "power2.out"
+      }, 0);
+    });
+
     // Section parallax
     gsap.to(portfolioSectionRef.current, {
       y: -900,
