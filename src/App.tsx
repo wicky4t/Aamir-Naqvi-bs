@@ -150,6 +150,19 @@ useEffect(() => {
       }
     });
 
+   // Portfolio section animation
+    if (portfolioSectionRef.current) {
+      gsap.to(portfolioSectionRef.current, {
+        y: -900,
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
+    }
+    
     // Show/hide contact section
     ScrollTrigger.create({
       trigger: portfolioSectionRef.current,
