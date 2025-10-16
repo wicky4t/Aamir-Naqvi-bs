@@ -226,8 +226,8 @@ function App() {
                 zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
-                position:  'FIXED'              }}
-            >
+                position:  'absolute'              }}
+            > 
               <img
                 src={img.src}
                 alt={`Desktop layer ${index + 1}`}
