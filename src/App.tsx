@@ -46,7 +46,7 @@ const desktopImages = [
   { src: '/pc/1-2.png', delay: 1.0}, 
   { src: '/pc/7.png', delay: 1.2 },
   { src: '/pc/name.png', delay: 0,  }, 
-  { src: '/pc/bg.png', isStatic: true,  action: 'fixed'},  
+  { src: '/pc/bg.png', isStatic: true},  
 ];
 
  
@@ -385,7 +385,7 @@ useEffect(() => {
               >
                 INSTAGRAM
               </a>
-           <p className="text-white/30 text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
+           <p className="text-[#181f22] text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
                 Tap in for visuals with purpose. - follow the flow.
               </p>
             </div>
