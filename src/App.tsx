@@ -48,7 +48,7 @@ const desktopImages = [
   { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
 ]; 
 
-  
+ 
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -223,10 +223,10 @@ useEffect(() => {
               />
             </div>
           ))}
-        </div>
+        </div> 
       </div>
 
-      {/* Portfolio Section */} 
+      {/* Portfolio Section */}
       <div 
         ref={portfolioSectionRef} 
         className="relative w-full bg-[#f0f0f0] z-[100] rounded-t-[3rem] rounded-b-[3rem] opacity-100"
