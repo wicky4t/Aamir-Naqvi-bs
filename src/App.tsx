@@ -95,7 +95,6 @@ function App() {
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
  
-      // Batch hero elements animation
       const heroElements = [desktopImages.current];
       heroElements.forEach(element => {
         if (element) {
