@@ -104,7 +104,7 @@ useEffect(() => {
     const desktopTl = gsap.timeline({
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
-        start: "top bottom",
+        start: "buttom bottom",
         end: "bottom top",
         scrub: true, // scroll-driven smooth animation
       }
