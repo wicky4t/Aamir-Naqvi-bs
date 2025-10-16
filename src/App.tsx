@@ -391,7 +391,7 @@ useEffect(() => {
                 LINKEDIN
               </a>
               <p className="text-[#181f22] text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
-                See how UX meets business - connect with me.
+               Explore my work and journey
               </p>
             </div>
 
