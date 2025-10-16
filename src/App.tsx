@@ -29,24 +29,24 @@ const getMobileVH = () => {
   return null;
 };
 const mobileImages = [
-  { src: '/mobile/mbname.png', delay: 0.2, isStatic: false },
-  { src: '/mobile/7.png', delay: 0.4, isStatic: false },
-  { src: '/mobile/mb5-6.png', delay: 0.6, isStatic: false },
-  { src: '/mobile/mb3-4.png', delay: 0.8, isStatic: false },
-  { src: '/mobile/mb1-2.png', delay: 1.0, isStatic: false },
-  { src: '/mobile/mbme.png', delay: 1.2, isStatic: false },
-  { src: '/mobile/mobile bg.png', delay: 1.4, isStatic: true },
+  { src: '/mobile/mbname.png', delay: 0.2 },
+  { src: '/mobile/7.png', delay: 0.4 },
+  { src: '/mobile/mb5-6.png', delay: 0.6 },
+  { src: '/mobile/mb3-4.png', delay: 0.8 },
+  { src: '/mobile/mb1-2.png', delay: 1.0 },
+  { src: '/mobile/mbme.png', delay: 1.2 },
+  { src: '/mobile/mobile bg.png', delay: 1.4 },
 ];
 
-const desktopImages = [ 
+const desktopImages = [
   { src: '/pc/me.png', delay: 1.2 },
   { src: '/pc/me 2.png', delay: 1.4 },
   { src: '/pc/5-6.png', delay: 0.6 },
   { src: '/pc/3-4.png', delay: 0.8 },
-  { src: '/pc/1-2.png', delay: 1.0}, 
+  { src: '/pc/1-2.png', delay: 1.0 },
   { src: '/pc/7.png', delay: 1.2 },
-  { src: '/pc/name.png', delay: 0, }, 
-  { src: '/pc/bg.png', isStatic: true},  
+  { src: '/pc/name.png', delay: 0 },
+  { src: '/pc/bg.png', delay: 0 },
 ]; 
 
  
@@ -201,9 +201,9 @@ useEffect(() => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: img.isStatic ? 0 : index + 10,
-                animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
-                transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
+                zIndex: index + 10,
+                animation: `slideUp 1s ease-out ${img.delay}s forwards`,
+                transform: 'translateY(100vh)',
               }}
             >
               <img
@@ -228,9 +228,9 @@ useEffect(() => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: img.isStatic ? 0 : index + 10,
-                animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
-                transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
+                zIndex: index + 10,
+                animation: `slideUp 1s ease-out ${img.delay}s forwards`,
+                transform: 'translateY(100vh)',
               }}
             >
               <img
