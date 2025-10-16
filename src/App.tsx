@@ -104,8 +104,8 @@ useEffect(() => {
     const desktopTl = gsap.timeline({
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
-        start: "buttom center",
-        end: "center center",
+       start: "top bottom",
+          end: "top 70%",
         scrub: true, // scroll-driven smooth animation
       }
     });
