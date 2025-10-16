@@ -57,7 +57,6 @@ function App() {
   const portfolioSectionRef = useRef<HTMLDivElement>(null);
   const fixedBackgroundRef = useRef<HTMLDivElement>(null);
   const mobileImagesRef = useRef<(HTMLDivElement | null)[]>([]);
-  const desktopImagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const [mobileVH, setMobileVH] = useState<number | null>(null);
 
 
