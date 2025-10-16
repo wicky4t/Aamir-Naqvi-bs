@@ -217,7 +217,7 @@ function App() {
               ref={(el) => (desktopImagesRef.current[index] = el)}
               className="hero-image-layer fixed inset-0 w-full h-full"
               style={{
-                position: 'absolute',
+                position: 'fixed',
                 top: 0,
                 left: 0,
                 width: '100%',
