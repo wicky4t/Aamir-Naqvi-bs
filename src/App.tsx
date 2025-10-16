@@ -38,214 +38,148 @@ const mobileImages = [
   { src: '/mobile/mobile bg.png', delay: 0, zIndex: 0 },
 ];
 
-{/* Desktop Images - Fixed layers */}
-<div className="hidden md:block">
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 80, animation: 'slideUp 1s ease-out 1.5s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/me.png" alt="Desktop layer 1" className="w-full h-full object-cover" />
-  </div>
-
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 80, animation: 'slideUp 1s ease-out 1.4s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/me 2.png" alt="Desktop layer 2" className="w-full h-full object-cover" />
-  </div>
-
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 30, animation: 'slideUp 1s ease-out 0.6s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/5-6.png" alt="Desktop layer 3" className="w-full h-full object-cover" />
-  </div>
-
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 40, animation: 'slideUp 1s ease-out 0.8s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/3-4.png" alt="Desktop layer 4" className="w-full h-full object-cover" />
-  </div>
-
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 50, animation: 'slideUp 1s ease-out 1s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/1-2.png" alt="Desktop layer 5" className="w-full h-full object-cover" />
-  </div>
-
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 60, animation: 'slideUp 1s ease-out 1.2s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/7.png" alt="Desktop layer 6" className="w-full h-full object-cover" />
-  </div>
-
-  <div className="desktop-image fixed inset-0 w-full h-full" style={{ zIndex: 70, animation: 'slideUp 1s ease-out 0s forwards', transform: 'translateY(100vh)' }}>
-    <img src="/pc/name.png" alt="Desktop layer 7" className="w-full h-full object-cover" />
-  </div>
-</div>
-
- 
+const desktopImages = [
+  { src: '/pc/me.png', delay: 1.5, zIndex: 80, isStatic: false },
+  { src: '/pc/me 2.png', delay: 1.4, zIndex: 80, isStatic: false },
+  { src: '/pc/5-6.png', delay: 0.6, zIndex: 30, isStatic: false },
+  { src: '/pc/3-4.png', delay: 0.8, zIndex: 40, isStatic: false },
+  { src: '/pc/1-2.png', delay: 1.0, zIndex: 50, isStatic: false },
+  { src: '/pc/7.png', delay: 1.2, zIndex: 60, isStatic: false },
+  { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false },
+];
 
 function App() {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [showContact, setShowContact] = React.useState(false);
+  const [showContact, setShowContact] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const portfolioSectionRef = useRef<HTMLDivElement>(null);
   const fixedBackgroundRef = useRef<HTMLDivElement>(null);
-  const mobileImagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const [mobileVH, setMobileVH] = useState<number | null>(null);
 
-
-  
   // Handle mobile viewport height
   useEffect(() => {
-    // Initialize mobile viewport height
-    setMobileVH();
-    
     const updateMobileVH = () => {
       if (window.innerWidth < 768) {
         setMobileVH(window.innerHeight);
-        // Also update CSS custom property
-        setMobileVH();
+        document.documentElement.style.setProperty('--mobile-vh', `${window.innerHeight}px`);
       } else {
         setMobileVH(null);
       }
     };
 
+    updateMobileVH();
     window.addEventListener('resize', updateMobileVH);
     window.addEventListener('orientationchange', updateMobileVH);
-    // Also listen for viewport changes (URL bar hide/show)
-    window.addEventListener('scroll', setMobileVH);
+    window.addEventListener('scroll', updateMobileVH);
 
     return () => {
       window.removeEventListener('resize', updateMobileVH);
       window.removeEventListener('orientationchange', updateMobileVH);
-      window.removeEventListener('scroll', setMobileVH);
+      window.removeEventListener('scroll', updateMobileVH);
     };
   }, []);
-  
 
-// Desktop downward scroll animation
-useEffect(() => {
-  gsap.registerPlugin(ScrollTrigger);
+  // Desktop downward scroll animation
+  useEffect(() => {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill()); // remove previous triggers
 
-  // Kill any existing triggers
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    if (portfolioSectionRef.current) {
+      const desktopElements = gsap.utils.toArray(".desktop-image");
 
-  if (portfolioSectionRef.current) {
-    // Only desktop images, no exclusions
-    const animatableDesktopElements = desktopImagesRef.current.filter(el => el);
+      // Move desktop images slightly downward on scroll
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+          markers: true, // remove in production
+        },
+      }).to(desktopElements, { y: 50, ease: "power1.out" });
 
-    // Timeline for downward movement 
-    const desktopTl = gsap.timeline({
-      scrollTrigger: {
+      // Portfolio section parallax
+      gsap.to(portfolioSectionRef.current, {
+        y: -900,
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      // Show/hide contact section
+      ScrollTrigger.create({
         trigger: portfolioSectionRef.current,
-       start: "top bottom",
-          end: "top 70%",
-        scrub: true, // scroll-driven smooth animation
-         markers: true,
-      }
-    });
+        start: "center bottom",
+        fastScrollEnd: true,
+        onEnter: () => setShowContact(true),
+        onLeaveBack: () => setShowContact(false),
+      });
+    }
 
-    animatableDesktopElements.forEach(element => {
-      desktopTl.to(element, { y: 50, ease: "power1.out" }, 0); // move down by 50px
-    });
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
 
-    // Section parallax
-    gsap.to(portfolioSectionRef.current, {
-      y: -900,
-      scrollTrigger: {
-        trigger: portfolioSectionRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      }
-    });
-
-    // Show/hide contact section
-    ScrollTrigger.create({
-      trigger: portfolioSectionRef.current,
-      start: "center bottom",
-      fastScrollEnd: true,
-      onEnter: () => setShowContact(true),
-      onLeaveBack: () => setShowContact(false),
-    });
-  }
-
-  return () => {
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  };
-}, []);
-
-  return ( 
+  return (
     <div className="relative">
-   
-  
-<div
-  ref={fixedBackgroundRef}
-  className="fixed inset-0 bg-center bg-no-repeat z-[-1] 
-             bg-cover 
-             sm:bg-cover 
-             max-sm:bg-cover max-sm:bg-center"
-  style={{
-    backgroundImage: `url('/pc/bg.png')`,
-    backgroundAttachment: 'fixed',
-    backgroundSize: window.innerWidth < 640 ? 'cover' : 'cover'
-  }}
->
+      {/* Fixed Background */}
+      <div
+        ref={fixedBackgroundRef}
+        className="fixed inset-0 bg-center bg-no-repeat z-[-1] bg-cover"
+        style={{
+          backgroundImage: `url('/pc/bg.png')`,
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/0" />
+      </div>
 
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/0" />
-</div>
- 
-      {/* Main Hero Section */}
+      {/* Hero Section */}
       <div
         ref={heroRef}
         className="relative w-full overflow-hidden bg-transparent"
         style={{
           minHeight: window.innerWidth < 768 ? 'calc(var(--mobile-vh) * 100)' : '100vh',
-          height: window.innerWidth < 768 ? 'calc(var(--mobile-vh) * 100)' : '100vh'
+          height: window.innerWidth < 768 ? 'calc(var(--mobile-vh) * 100)' : '100vh',
         }}
       >
-        {/* Mobile Images - Stacked full screen */}
+        {/* Mobile Images */}
         <div className="md:hidden">
           {mobileImages.map((img, index) => (
             <div
               key={index}
-              ref={(el) => (mobileImagesRef.current[index] = el)}
               className="hero-image-layer fixed inset-0 w-full h-full"
               style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
                 zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
               }}
             >
-              <img
-                src={img.src}
-                alt={`Mobile layer ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
+              <img src={img.src} alt={`Mobile layer ${index + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
 
-        {/* Desktop Images - Stacked full screen */}
+        {/* Desktop Images */}
         <div className="hidden md:block">
           {desktopImages.map((img, index) => (
             <div
               key={index}
-              ref={(el) => (desktopImagesRef.current[index] = el)}
-              className="hero-image-layer fixed inset-0 w-full h-full"
+              className="desktop-image fixed inset-0 w-full h-full hero-image-layer"
               style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
                 zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
-                      }}
-            > 
-              <img
-                src={img.src}
-                alt={`Desktop layer ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
+              }}
+            >
+              <img src={img.src} alt={`Desktop layer ${index + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
       </div>
+
 
       {/* Portfolio Section */}
       <div 
