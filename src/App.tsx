@@ -46,7 +46,6 @@ const desktopImages = [
   { src: '/pc/1-2.png', delay: 1.0, zIndex: 50, isStatic: false },
   { src: '/pc/7.png', delay: 1.2, zIndex: 60, isStatic: false },
   { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
-  { src: '/pc/bg.png', delay: 0, zIndex: 0, isStatic: true },
 ]; 
 
  
