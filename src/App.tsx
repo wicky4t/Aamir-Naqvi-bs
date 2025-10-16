@@ -226,7 +226,7 @@ function App() {
                 zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
-                position:  'absolute'              }}
+                position:  'FIXED'              }}
             >
               <img
                 src={img.src}
