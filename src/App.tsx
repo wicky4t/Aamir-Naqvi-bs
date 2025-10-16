@@ -91,26 +91,11 @@ function App() {
   
 
 useEffect(() => {
-  gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  gsap.registerPlugin(ScrollTrigger);
 
-  if (portfolioSectionRef.current) {
-    // List of background images to exclude
-    const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
-
-    // Combine mobile and desktop images, filter out backgrounds
-    const heroElements = [
-      ...(mobileImagesRef.current || []).filter((el, i) => {
-        const src = mobileImages[i]?.src || '';
-        return el && !excludedBackgrounds.some(bg => src.includes(bg));
-      }),
-      ...(desktopImagesRef.current || []).filter((el, i) => {
-        const src = desktopImages[i]?.src || '';
-        return el && !excludedBackgrounds.some(bg => src.includes(bg));
-      })
-    ];
-
-    // Create timeline for scroll-down animation
+  if (!isMobile() && portfolioSectionRef.current) {
+    // Create a single timeline for all hero elements
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
@@ -121,26 +106,32 @@ useEffect(() => {
       }
     });
 
-    // Animate each element downward
+    // Batch hero elements animation (flatten arrays)
+    const heroElements = [
+      ...(mobileImagesRef.current || []),
+      ...(desktopImagesRef.current || [])
+    ];
+
     heroElements.forEach(element => {
-      heroTl.to(element, {
-        y: 50, // downward movement
-        ease: "power2.out"
-      }, 0);
+      if (element) {
+        heroTl.to(element, { 
+          y: 50,
+          ease: "power2.out"
+        }, 0);
+      }
     });
 
-    // Section parallax animation
+    // Section parallax
     gsap.to(portfolioSectionRef.current, {
       y: -900,
       scrollTrigger: {
         trigger: portfolioSectionRef.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: true,
+        scrub: 2,
       }
     });
 
-    // Show/hide contact section based on scroll
     ScrollTrigger.create({
       trigger: portfolioSectionRef.current,
       start: "center bottom",
@@ -150,12 +141,10 @@ useEffect(() => {
     });
   }
 
-  // Clean up all scroll triggers on unmount
   return () => {
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
   };
 }, []);
-
 
  
   return ( 
