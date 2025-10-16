@@ -89,22 +89,28 @@ function App() {
   }, []);
   
 
- // Desktop scroll animation
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+useEffect(() => {
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
- 
-      const heroElements = [desktopImages.current];
-      heroElements.forEach(element => {
-        if (element) {
-          heroTl.to(element, { 
-            y: 50,
-            ease: "power2.out"
-          }, 0);
-        }
-      }); 
+  if (desktopImagesRef.current.length) {
+    // Only include desktop images (no exclusions)
+    const animatableDesktopElements = desktopImagesRef.current.filter(el => el);
 
+    // Timeline for downward movement
+    const desktopTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: portfolioSectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true, // smooth scroll-based animation
+      }
+    });
+
+    animatableDesktopElements.forEach(element => {
+      desktopTl.to(element, { y: 50, ease: "power1.out" }, 0); // moves down by 50px
+    });
+  }
       // Section parallax
       gsap.to(portfolioSectionRef.current, {
         y: -900,
