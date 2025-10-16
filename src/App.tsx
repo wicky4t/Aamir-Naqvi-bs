@@ -29,24 +29,24 @@ const getMobileVH = () => {
   return null;
 };
 const mobileImages = [
-  { src: '/mobile/mbname.png', delay: 0.2 },
-  { src: '/mobile/7.png', delay: 0.4 },
-  { src: '/mobile/mb5-6.png', delay: 0.6 },
-  { src: '/mobile/mb3-4.png', delay: 0.8 },
-  { src: '/mobile/mb1-2.png', delay: 1.0 },
-  { src: '/mobile/mbme.png', delay: 1.2 },
-  { src: '/mobile/mobile bg.png', delay: 1.4 },
+  { src: '/mobile/mbname.png', delay: 0.2, zIndex: 70 },
+  { src: '/mobile/7.png', delay: 0.4, zIndex: 20 },
+  { src: '/mobile/mb5-6.png', delay: 0.6, zIndex: 30 },
+  { src: '/mobile/mb3-4.png', delay: 0.8, zIndex: 40 },
+  { src: '/mobile/mb1-2.png', delay: 1.0, zIndex: 50 },
+  { src: '/mobile/mbme.png', delay: 1.2, zIndex: 80 },
+  { src: '/mobile/mobile bg.png', delay: 0, zIndex: 0 },
 ];
 
 const desktopImages = [
-  { src: '/pc/me.png', delay: 1.2 },
-  { src: '/pc/me 2.png', delay: 1.4 },
-  { src: '/pc/5-6.png', delay: 0.6 },
-  { src: '/pc/3-4.png', delay: 0.8 },
-  { src: '/pc/1-2.png', delay: 1.0 },
-  { src: '/pc/7.png', delay: 1.2 },
-  { src: '/pc/name.png', delay: 0 },
-  { src: '/pc/bg.png', delay: 0 },
+  { src: '/pc/me.png', delay: 1.5, zIndex: 80 },
+  { src: '/pc/me 2.png', delay: 1.4, zIndex: 80 },
+  { src: '/pc/5-6.png', delay: 0.6, zIndex: 30 },
+  { src: '/pc/3-4.png', delay: 0.8, zIndex: 40 },
+  { src: '/pc/1-2.png', delay: 1.0, zIndex: 50 },
+  { src: '/pc/7.png', delay: 1.2, zIndex: 60 },
+  { src: '/pc/name.png', delay: 0, zIndex: 70, isStatic: false},
+  { src: '/pc/bg.png', delay: 0, zIndex: 0, isStatic: true },
 ]; 
 
  
@@ -90,73 +90,68 @@ function App() {
   }, []);
   
 
-useEffect(() => {
-  gsap.registerPlugin(ScrollTrigger);
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+ // Desktop scroll animation
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-  if (portfolioSectionRef.current) {
-    // List of background images to exclude
-    const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
+    if (portfolioSectionRef.current) {
+      const excludedBackgrounds = ['bg.png', 'mobile bg.png', 'name.png', 'mbname.png'];
 
-    // Combine mobile and desktop images, filter out backgrounds
-    const heroElements = [
-      ...(mobileImagesRef.current || []).filter((el, i) => {
+      // Flatten and filter mobile images
+      const mobileAnimatableElements = (mobileImagesRef.current || []).filter((el, i) => {
         const src = mobileImages[i]?.src || '';
         return el && !excludedBackgrounds.some(bg => src.includes(bg));
-      }),
-      ...(desktopImagesRef.current || []).filter((el, i) => {
+      });
+
+      // Flatten and filter desktop images
+      const desktopAnimatableElements = (desktopImagesRef.current || []).filter((el, i) => {
         const src = desktopImages[i]?.src || '';
         return el && !excludedBackgrounds.some(bg => src.includes(bg));
-      })
-    ];
+      });
 
-    // Create timeline for scroll-down animation
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
+      const animatableElements = [...mobileAnimatableElements, ...desktopAnimatableElements];
+
+      // Timeline for scroll-down movement
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "top 70%",
+          scrub: 4,
+          invalidateOnRefresh: false,
+        }
+      });
+
+      animatableElements.forEach(element => {
+        heroTl.to(element, { y: 50, ease: "power2.out" }, 0);
+      });
+
+      // Section parallax
+      gsap.to(portfolioSectionRef.current, {
+        y: -900,
+        scrollTrigger: {
+          trigger: portfolioSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
+
+      // Show/hide contact section
+      ScrollTrigger.create({
         trigger: portfolioSectionRef.current,
-        start: "top bottom",
-        end: "top 70%",
-        scrub: 4,
-        invalidateOnRefresh: false,
-      }
-    });
+        start: "center bottom",
+        fastScrollEnd: true,
+        onEnter: () => setShowContact(true),
+        onLeaveBack: () => setShowContact(false),
+      });
+    }
 
-    // Animate each element downward
-    heroElements.forEach(element => {
-      heroTl.to(element, {
-        y: 50, // downward movement
-        ease: "power2.out"
-      }, 0);
-    });
-
-    // Section parallax animation
-    gsap.to(portfolioSectionRef.current, {
-      y: -900,
-      scrollTrigger: {
-        trigger: portfolioSectionRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      }
-    });
-
-    // Show/hide contact section based on scroll
-    ScrollTrigger.create({
-      trigger: portfolioSectionRef.current,
-      start: "center bottom",
-      fastScrollEnd: true,
-      onEnter: () => setShowContact(true),
-      onLeaveBack: () => setShowContact(false),
-    });
-  }
-
-  // Clean up all scroll triggers on unmount
-  return () => {
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  };
-}, []);
-
-
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
  
   return ( 
     <div className="relative">
@@ -201,7 +196,7 @@ useEffect(() => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: index + 10,
+                zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
               }}
@@ -228,7 +223,7 @@ useEffect(() => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: index + 10,
+                zIndex: img.zIndex,
                 animation: `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: 'translateY(100vh)',
               }}
@@ -391,7 +386,7 @@ useEffect(() => {
                 LINKEDIN
               </a>
               <p className="text-[#181f22] text-xl md:text-1xl lg:text-2xl ibm-font mb-0 text-center">
-                See how UX meets business - connect with me.
+               Explore my work and journey
               </p>
             </div>
 
