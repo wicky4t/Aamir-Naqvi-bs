@@ -164,7 +164,7 @@ function App() {
              sm:bg-cover 
              max-sm:bg-cover max-sm:bg-center"
   style={{
-    backgroundImage: `url('/bg.png')`,
+    backgroundImage: `url('/pc/bg.png')`,
     backgroundAttachment: 'fixed',
     backgroundSize: window.innerWidth < 640 ? 'cover' : 'cover'
   }}
