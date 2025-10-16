@@ -60,7 +60,28 @@ function App() {
   const desktopImagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const [mobileVH, setMobileVH] = useState<number | null>(null);
 
+ return (
+    <div>
+      {/* Other components, hero, splash, etc. */}
 
+      {/* Portfolio Section */}
+      <div ref={portfolioSectionRef}>
+        {desktopImages.map((img, i) => (
+          <div
+            key={i}
+            ref={el => desktopImagesRef.current[i] = el} // attach ref
+            style={{
+              position: 'fixed',  // keep images fixed
+              zIndex: img.zIndex,
+              top: 0,
+              left: 0,
+            }}
+          >
+            <img src={img.src} alt="" />
+          </div>
+        ))}
+      </div>
+  
   // Handle mobile viewport height
   useEffect(() => {
     // Initialize mobile viewport height
