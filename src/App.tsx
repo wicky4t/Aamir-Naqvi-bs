@@ -29,18 +29,18 @@ const getMobileVH = () => {
   return null;
 };
 const mobileImages = [
-  { src: '/mobile/mbname.png', delay: 0.2, zIndex: 10 },
+  { src: '/mobile/mbname.png', delay: 0.2, zIndex: 70 },
   { src: '/mobile/7.png', delay: 0.4, zIndex: 20 },
   { src: '/mobile/mb5-6.png', delay: 0.6, zIndex: 30 },
   { src: '/mobile/mb3-4.png', delay: 0.8, zIndex: 40 },
   { src: '/mobile/mb1-2.png', delay: 1.0, zIndex: 50 },
-  { src: '/mobile/mbme.png', delay: 1.2, zIndex: 60 },
-  { src: '/mobile/mobile bg.png', delay: 1.4, zIndex: 70 },
+  { src: '/mobile/mbme.png', delay: 1.2, zIndex: 80 },
+  { src: '/mobile/mobile bg.png', delay: 1.4, zIndex: 0 },
 ];
 
 const desktopImages = [
-  { src: '/pc/me.png', delay: 1.2, zIndex: 10 },
-  { src: '/pc/me 2.png', delay: 1.4, zIndex: 20 },
+  { src: '/pc/me.png', delay: 1.2, zIndex: 80 },
+  { src: '/pc/me 2.png', delay: 1.4, zIndex: 80 },
   { src: '/pc/5-6.png', delay: 0.6, zIndex: 30 },
   { src: '/pc/3-4.png', delay: 0.8, zIndex: 40 },
   { src: '/pc/1-2.png', delay: 1.0, zIndex: 50 },
