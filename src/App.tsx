@@ -89,12 +89,15 @@ function App() {
   }, []);
   
 
+// Desktop downward scroll animation
 useEffect(() => {
   gsap.registerPlugin(ScrollTrigger);
+
+  // Kill any existing triggers
   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-  if (desktopImagesRef.current.length) {
-    // Only include desktop images (no exclusions)
+  if (portfolioSectionRef.current) {
+    // Only desktop images, no exclusions
     const animatableDesktopElements = desktopImagesRef.current.filter(el => el);
 
     // Timeline for downward movement
@@ -103,40 +106,40 @@ useEffect(() => {
         trigger: portfolioSectionRef.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: true, // smooth scroll-based animation
+        scrub: true, // scroll-driven smooth animation
       }
     });
 
     animatableDesktopElements.forEach(element => {
-      desktopTl.to(element, { y: 50, ease: "power1.out" }, 0); // moves down by 50px
+      desktopTl.to(element, { y: 50, ease: "power1.out" }, 0); // move down by 50px
+    });
+
+    // Section parallax
+    gsap.to(portfolioSectionRef.current, {
+      y: -900,
+      scrollTrigger: {
+        trigger: portfolioSectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      }
+    });
+
+    // Show/hide contact section
+    ScrollTrigger.create({
+      trigger: portfolioSectionRef.current,
+      start: "center bottom",
+      fastScrollEnd: true,
+      onEnter: () => setShowContact(true),
+      onLeaveBack: () => setShowContact(false),
     });
   }
-      // Section parallax
-      gsap.to(portfolioSectionRef.current, {
-        y: -900,
-        scrollTrigger: {
-          trigger: portfolioSectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        }
-      });
 
-      // Show/hide contact section
-      ScrollTrigger.create({
-        trigger: portfolioSectionRef.current,
-        start: "center bottom",
-        fastScrollEnd: true,
-        onEnter: () => setShowContact(true),
-        onLeaveBack: () => setShowContact(false),
-      });
-    }
+  return () => {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  };
+}, []);
 
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
- 
   return ( 
     <div className="relative">
    
